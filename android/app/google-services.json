@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "78253230531",
+    "project_id": "brew-crew-ac8b4",
+    "storage_bucket": "brew-crew-ac8b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78253230531:android:add8b7c628d771a07f1576",
+        "android_client_info": {
+          "package_name": "com.vatican.coffee_crew"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1P4_QwsMC6_wQax2gYZNe_lmDleUPxvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
