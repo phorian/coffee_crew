@@ -16,10 +16,12 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
 
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   //text field state storage
   String email = '';
   String password = '';
+  String error = '';
 
 
   @override
@@ -43,10 +45,12 @@ class _SignInState extends State<SignIn> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
+          key: _formKey,
           child: Column(
             children: <Widget>[
               SizedBox(height: 20),
               TextFormField(
+                  validator: (val) => val!.isEmpty ? 'Enter an email' : null,
                   onChanged: (val) {
                     setState(() {
                       email = val;
@@ -55,6 +59,7 @@ class _SignInState extends State<SignIn> {
               ),
               SizedBox(height: 20),
               TextFormField(
+                  validator: (val) => val!.length < 6 ? 'Password should be 6+ characters long ' : null,
                   obscureText: true,
                   onChanged: (val) {
                     setState(() {
@@ -73,9 +78,20 @@ class _SignInState extends State<SignIn> {
                   ),
                   //color: Colors.pink[400],
                   onPressed: () async {
-                    print(email);
-                    print(password);
-                  }
+                    if (_formKey.currentState!.validate()) {
+                       dynamic result = await _auth.signInEmailnPwd(email, password);
+                        if(result == null) {
+                          setState(() {
+                            error = 'User does not exist';
+                          });
+                        }
+                      }
+                    }
+              ),
+              const SizedBox(height: 12.0),
+              Text(
+                error,
+                style: const TextStyle(color: Colors.red, fontSize: 14.0),
               ),
             ],
           ),

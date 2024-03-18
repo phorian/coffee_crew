@@ -82,7 +82,7 @@ class _RegisterState extends State<Register> {
                       dynamic result = await _auth.regWithEmailnPwd(email, password);
                       if(result == null) {
                         setState(() {
-                          error = 'User does not exist';
+                          error = 'Cannot create user, Use valid Email';
                         });
                       }
                     }
