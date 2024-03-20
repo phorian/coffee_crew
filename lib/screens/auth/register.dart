@@ -1,3 +1,4 @@
+import 'package:coffee_crew/global/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_crew/services/auth.dart';
 import 'package:coffee_crew/global/constant.dart';
@@ -17,7 +18,7 @@ class _RegisterState extends State<Register> {
 
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
-
+  bool loading = false;
 
   //text field state storage
   String email = '';
@@ -27,7 +28,7 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       backgroundColor: Colors.brown[100],
       appBar: AppBar(
         backgroundColor: Colors.brown[400],
@@ -82,9 +83,13 @@ class _RegisterState extends State<Register> {
                   //color: Colors.pink[400],
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
+                      setState(() {
+                        loading = true;
+                      });
                       dynamic result = await _auth.regWithEmailnPwd(email, password);
                       if(result == null) {
                         setState(() {
+                          loading = false;
                           error = 'Cannot create user, Use valid Email';
                         });
                       }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:coffee_crew/models/user.dart' as UserModal;
+import 'package:coffee_crew/services/db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -13,7 +14,7 @@ class AuthService {
     return user != null ? UserModal.UserModel(uid: user.uid) : null;
   }
 
-  // auth change user stream
+  // user auth change stream
   Stream<UserModal.UserModel?> get user {
     return _auth.authStateChanges().map((User? user) => _userFromFirebaseUser(user));
     //.map(_userFromFirebaseUser);
@@ -39,6 +40,10 @@ class AuthService {
     try{
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User? user = result.user;
+
+      // create a new document for user with the uid
+      await DbServices(uid: user?.uid).updateUserData('0', 'new crew member', 100);
+
       return _userFromFirebaseUser(user);
     } catch(e) {
       print(e.toString());
