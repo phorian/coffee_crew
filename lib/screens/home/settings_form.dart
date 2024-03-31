@@ -26,10 +26,57 @@ class _SettingsFormState extends State<SettingsForm> {
           Text(
             'Update your brew settings.',
             style: TextStyle(fontSize: 18.0),
+          ),
+          SizedBox(height: 20.0),
+          TextFormField(
+            decoration: textInputDecoration,
+            validator: (val) => val!.isEmpty ? 'Please enter a name' : null,
+            onChanged: (val) => setState(() => _currentName = val)
+          ),
+          SizedBox(height: 20.0),
+
+          //dropdown
+          DropdownButtonFormField(
+            decoration: textInputDecoration,
+              value: _currentSugars ?? '0',
+              items: sugars.map((sugar){
+                return DropdownMenuItem(
+                    value: sugar,
+                    child: Text('$sugar sugars')
+                );
+
+              }).toList(),
+              onChanged: (val) => setState(() => _currentSugars = val)
+          ),
+          SizedBox(height: 20.0),
+          //slider
+          Slider(
+              min: 100,
+              max: 900,
+              divisions: 8,
+              value: (_currentStrength ?? 100).toDouble(),
+              activeColor: Colors.brown[_currentStrength ?? 100],
+              inactiveColor: Colors.brown[_currentStrength ?? 100],
+              onChanged: (val) => setState(() => _currentStrength = val.round()),
+          ),
+
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.pink[400],
+            ),
+            child: Text(
+              'update',
+              style: TextStyle(color: Colors.white),
+            ),
+              onPressed: () async {
+              print(_currentName);
+              print(_currentSugars);
+              print(_currentStrength);
+              }
           )
         ],
       ),
 
-    )
+    );
   }
 }
